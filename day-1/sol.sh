@@ -11,7 +11,7 @@ awk -F ' ' '{print $2}' < $1 | sort > col2.txt
 similarity_score=0
 while read -r line
 do
-	IFS=":" read a b <<< $line
+	IFS=$'\t' read a b <<< $line
 
 	if [[ $2 -eq 1 ]]
 	then
@@ -23,7 +23,7 @@ do
 		count=$(grep -c $a col2.txt) && similarity_score=$((similarity_score + a*count))
 	fi
 
-done <<< $(paste -d":" col1.txt col2.txt)
+done <<< $(paste col1.txt col2.txt)
 
 [[ $2 -eq 2 ]] && echo $similarity_score
 
